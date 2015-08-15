@@ -1,0 +1,24 @@
+MTOTD Home Automation
+
+Must have 1 RaspberryPi master (MTOTD-PiMaster) and can have multiple RaspberryPi slaves (MTOTD-PiSlaves) or other devices that can be controlled manually (Arduino, IoT switch, …)
+
+RaspberryPi Master will contain a web interface to Manage the whole system and a MySQL database to store the zone/sensor/object/scheduling/events/… data.  RaspberryPi Master can also function as a slave if there are objects associated with it.  The RaspberryPi slave will run a flask webserver used to trigger GPIO/SPI/... events when the appropriate JSON data is sent to it. 
+
+Admin Portal
+-Zones Grid/List (Add/Update/Delete Zones)
+—A zone is a room which contains one or more sensors
+
+-Sensor Grid/List (Add/Update/Delete Sensors. Sensors are associated with Zones)
+—A sensor is a device that can be communicated with by ‘MTOTD-PiMaster’ to perform an action on an object.
+
+-Object Grid/List (Add/Update/Delete Objects.  Objects are associated with Sensors)
+—An object is something that the Sensor can communicate with to trigger and event like tuning on a light, downloading an image, etc.
+
+-Add Scheduled Event
+—Turn ‘Living Room Lights’ on at 6pm M-F
+
+-Add Triggered Event
+—Turn on ‘Living Room TV’ when the ‘Living Room Lights’ are turned on
+
+User Portal
+-View a List of Zones.  For each zone see all controllable objects and control them manually and display a paginated list of events.
