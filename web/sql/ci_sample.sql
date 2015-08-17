@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (armv7l)
+-- MySQL dump 10.13  Distrib 5.6.24, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ci_sample
 -- ------------------------------------------------------
--- Server version       5.5.44-0+deb7u1
+-- Server version	5.6.24-2+deb.sury.org~trusty+2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -69,7 +69,7 @@ CREATE TABLE `ci_sessions` (
 
 LOCK TABLES `ci_sessions` WRITE;
 /*!40000 ALTER TABLE `ci_sessions` DISABLE KEYS */;
-INSERT INTO `ci_sessions` VALUES ('024523e9fcd6dcf9192e06dc8be66467','192.168.56.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.3',1439659763,'a:7:{s:9:\"user_data\";s:0:\"\";s:9:\"user_name\";s:5:\"admin\";s:12:\"is_logged_in\";b:1;s:19:\"sensortype_selected\";b:0;s:22:\"search_string_selected\";N;s:5:\"order\";N;s:10:\"order_type\";N;}'),('c9dd01bc661a673b5d700667d81e6126','192.168.2.117','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.3',1439784984,'a:6:{s:9:\"user_name\";s:5:\"admin\";s:12:\"is_logged_in\";b:1;s:19:\"sensortype_selected\";N;s:22:\"search_string_selected\";N;s:5:\"order\";N;s:10:\"order_type\";N;}'),('255c5faba2ee5107eb36c32dceb07c4b','192.168.2.117','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.3',1439812154,''),('6a3aac8f3263ec1c49cd0f33f73f468c','192.168.2.117','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.3',1439828644,'a:7:{s:9:\"user_data\";s:0:\"\";s:9:\"user_name\";s:5:\"admin\";s:12:\"is_logged_in\";b:1;s:19:\"sensortype_selected\";N;s:22:\"search_string_selected\";N;s:5:\"order\";N;s:10:\"order_type\";N;}');
+INSERT INTO `ci_sessions` VALUES ('ce45c9f4f1a9e28fde322e5787ec070d','192.168.56.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.3',1439846455,'a:8:{s:9:\"user_data\";s:0:\"\";s:9:\"user_name\";s:5:\"admin\";s:12:\"is_logged_in\";b:1;s:19:\"sensortype_selected\";N;s:22:\"search_string_selected\";N;s:5:\"order\";N;s:10:\"order_type\";N;s:15:\"sensor_selected\";N;}');
 /*!40000 ALTER TABLE `ci_sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,7 +129,7 @@ CREATE TABLE `scheduledevents` (
 
 LOCK TABLES `scheduledevents` WRITE;
 /*!40000 ALTER TABLE `scheduledevents` DISABLE KEYS */;
-INSERT INTO `scheduledevents` VALUES (2,'Turn on Living Room Lights','This event will turn on the living room lights at 6pm daily','*','*','*','0-16','*',3,'0'),(3,'Turn off Living Room Lights','This event will turn off the living room lights at 11pm daily','*','*','*','0-16','*',1,'0');
+INSERT INTO `scheduledevents` VALUES (2,'Turn on Living Room Lights','This event will turn on the living room lights at 6pm daily','*','*','*','0-16','*',3,'1'),(3,'Turn off Living Room Lights','This event will turn off the living room lights at 11pm daily','*','*','*','0-16','*',1,'0');
 /*!40000 ALTER TABLE `scheduledevents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +148,7 @@ CREATE TABLE `sensorobjects` (
   `description` varchar(2048) NOT NULL,
   `misc` varchar(2048) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +157,7 @@ CREATE TABLE `sensorobjects` (
 
 LOCK TABLES `sensorobjects` WRITE;
 /*!40000 ALTER TABLE `sensorobjects` DISABLE KEYS */;
-INSERT INTO `sensorobjects` VALUES (1,1,22,'living_room_lights_right','Lights on the right side of the living room',''),(3,1,17,'living_room_lights_right','Lights on the left side of the living room','');
+INSERT INTO `sensorobjects` VALUES (1,1,22,'Living Room Lights (left side)','Lights on the right side of the living room',''),(3,1,17,'Living Room Lights (right side)','Lights on the left side of the living room','');
 /*!40000 ALTER TABLE `sensorobjects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,7 +175,7 @@ CREATE TABLE `sensors` (
   `sensortype_id` int(11) DEFAULT NULL,
   `ipaddress` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +184,7 @@ CREATE TABLE `sensors` (
 
 LOCK TABLES `sensors` WRITE;
 /*!40000 ALTER TABLE `sensors` DISABLE KEYS */;
-INSERT INTO `sensors` VALUES (1,'living_room_raspi','Raspberry Pi in living room controlling lights.',1,'192.168.2.135'),(2,'kitchen_nano','Arduino Nano Controlling coffee pot',3,NULL);
+INSERT INTO `sensors` VALUES (1,'Living Room RasPi','Raspberry Pi in living room controlling lights.',1,'192.168.2.135'),(2,'Kitchen Nano','Arduino Nano Controlling coffee pot',3,'');
 /*!40000 ALTER TABLE `sensors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +199,7 @@ CREATE TABLE `sensortype` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,4 +221,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-17 13:10:12
+-- Dump completed on 2015-08-17 21:26:00
