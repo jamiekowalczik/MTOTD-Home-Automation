@@ -3,24 +3,21 @@
       <ul class="breadcrumb">
         <li>
           <a href="<?php echo site_url("admin"); ?>">
-            <?php echo ucfirst($this->uri->segment(1));?>
+            List Sensor Types
           </a> 
           <span class="divider">/</span>
         </li>
         <li>
           <a href="<?php echo site_url("admin").'/'.$this->uri->segment(2); ?>">
-            <?php echo ucfirst($this->uri->segment(2));?>
+            Update Sensor Type
           </a> 
           <span class="divider">/</span>
-        </li>
-        <li class="active">
-          <a href="#">Update</a>
         </li>
       </ul>
       
       <div class="page-header">
         <h2>
-          Updating <?php echo ucfirst($this->uri->segment(2));?>
+          Update Sensor Type
         </h2>
       </div>
 
@@ -37,7 +34,7 @@
         }else{
           echo '<div class="alert alert-error">';
             echo '<a class="close" data-dismiss="alert">×</a>';
-            echo '<strong>Oh snap!</strong> change a few things up and try submitting again.';
+            echo '<strong>Something went wrong!</strong> change a few things up and try submitting again.';
           echo '</div>';          
         }
       }

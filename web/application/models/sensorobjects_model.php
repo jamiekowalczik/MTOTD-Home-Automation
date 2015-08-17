@@ -1,5 +1,5 @@
 <?php
-class Sensors_model extends CI_Model {
+class Sensorobjects_model extends CI_Model {
  
     /**
     * Responsable for auto load the database
@@ -11,21 +11,21 @@ class Sensors_model extends CI_Model {
     }
 
     /**
-    * Get sensor by his is
-    * @param int $sensor_id 
+    * Get sensorobjet by his id
+    * @param int $sensorobject_id 
     * @return array
     */
-    public function get_sensor_by_id($id)
+    public function get_sensorobject_by_id($id)
     {
 		$this->db->select('*');
-		$this->db->from('sensors');
+		$this->db->from('sensorobjects');
 		$this->db->where('id', $id);
 		$query = $this->db->get();
 		return $query->result_array(); 
     }
 
     /**
-    * Fetch sensors data from the database
+    * Fetch sensorobjects data from the database
     * possibility to mix search, filter and order
     * @param int $manufacuture_id 
     * @param string $search_string 
@@ -33,26 +33,27 @@ class Sensors_model extends CI_Model {
     * @param int $limit_end
     * @return array
     */
-    public function get_sensors($sensortype_id=null, $search_string=null, $order=null, $order_type='Asc', $limit_start, $limit_end)
+    public function get_sensorobjects($sensor_id=null, $search_string=null, $order=null, $order_type='Asc', $limit_start, $limit_end)
     {
 	    
-		$this->db->select('sensors.id');
-		$this->db->select('sensors.name');
-		$this->db->select('sensors.description');
-		$this->db->select('sensors.sensortype_id');
-		$this->db->select('sensortype.name as sensortype_name');
-		$this->db->select('sensors.ipaddress');
-		$this->db->from('sensors');
-		if($sensortype_id != null && $sensortype_id != 0){
-			$this->db->where('sensortype_id', $sensortype_id);
+		$this->db->select('sensorobjects.id');
+		$this->db->select('sensorobjects.name');
+		$this->db->select('sensorobjects.description');
+		$this->db->select('sensorobjects.sensor_id');
+		$this->db->select('sensors.name as sensor_name');
+		$this->db->select('sensorobjects.sensor_pin');
+		$this->db->select('sensorobjects.misc');
+		$this->db->from('sensorobjects');
+		if($sensor_id != null && $sensor_id != 0){
+			$this->db->where('sensor_id', $sensor_id);
 		}
 		if($search_string){
 			$this->db->like('description', $search_string);
 		}
 
-		$this->db->join('sensortype', 'sensors.sensortype_id = sensortype.id', 'left');
+		$this->db->join('sensors', 'sensorobjects.sensor_id = sensors.id', 'left');
 
-		$this->db->group_by('sensors.id');
+		$this->db->group_by('sensorobjects.id');
 
 		if($order){
 			$this->db->order_by($order, $order_type);
@@ -60,33 +61,27 @@ class Sensors_model extends CI_Model {
 		    $this->db->order_by('id', $order_type);
 		}
 
-		if($limit_start && $limit_end){
-			$this->db->limit($limit_start, $limit_end);
-		}
-		
-		if($limit_start != null){
-			$this->db->limit($limit_start, $limit_end);
-		}
-		
+
+		$this->db->limit($limit_start, $limit_end);
+
 		$query = $this->db->get();
 		
-		return $query->result_array();
-		
+		return $query->result_array(); 	
     }
 
     /**
     * Count the number of rows
-    * @param int $sensortype_id
+    * @param int $sensor_id
     * @param int $search_string
     * @param int $order
     * @return int
     */
-    function count_sensors($sensortype_id=null, $search_string=null, $order=null)
+    function count_sensorobjects($sensor_id=null, $search_string=null, $order=null)
     {
 		$this->db->select('*');
-		$this->db->from('sensors');
-		if($sensortype_id != null && $sensortype_id != 0){
-			$this->db->where('sensortype_id', $sensortype_id);
+		$this->db->from('sensorobjects');
+		if($sensor_id != null && $sensor_id != 0){
+			$this->db->where('sensor_id', $sensor_id);
 		}
 		if($search_string){
 			$this->db->like('description', $search_string);
@@ -105,9 +100,9 @@ class Sensors_model extends CI_Model {
     * @param array $data - associative array with data to store
     * @return boolean 
     */
-    function store_sensor($data)
+    function store_sensorobject($data)
     {
-		$insert = $this->db->insert('sensors', $data);
+		$insert = $this->db->insert('sensorobjects', $data);
 	    return $insert;
 	}
 
@@ -116,10 +111,10 @@ class Sensors_model extends CI_Model {
     * @param array $data - associative array with data to store
     * @return boolean
     */
-    function update_sensor($id, $data)
+    function update_sensorobject($id, $data)
     {
 		$this->db->where('id', $id);
-		$this->db->update('sensors', $data);
+		$this->db->update('sensorobjects', $data);
 		$report = array();
 		$report['error'] = $this->db->_error_number();
 		$report['message'] = $this->db->_error_message();
@@ -135,9 +130,9 @@ class Sensors_model extends CI_Model {
     * @param int $id - sensor id
     * @return boolean
     */
-	function delete_sensor($id){
+	function delete_sensorobject($id){
 		$this->db->where('id', $id);
-		$this->db->delete('sensors'); 
+		$this->db->delete('sensorobjects'); 
 	}
  
 }

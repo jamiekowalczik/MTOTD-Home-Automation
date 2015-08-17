@@ -3,18 +3,15 @@
       <ul class="breadcrumb">
         <li>
           <a href="<?php echo site_url("admin"); ?>">
-            <?php echo ucfirst($this->uri->segment(1));?>
+            List Sensor Types
           </a> 
           <span class="divider">/</span>
-        </li>
-        <li class="active">
-          <?php echo ucfirst($this->uri->segment(2));?>
         </li>
       </ul>
 
       <div class="page-header users-header">
         <h2>
-          Sensor Types 
+          Sensor Types
           <a  href="<?php echo site_url("admin").'/'.$this->uri->segment(2); ?>/add" class="btn btn-success">Add a new</a>
         </h2>
       </div>
@@ -59,7 +56,6 @@
           <table class="table table-striped table-bordered table-condensed">
             <thead>
               <tr>
-                <th class="header">#</th>
                 <th class="yellow header headerSortDown">Name</th>
               </tr>
             </thead>
@@ -68,7 +64,6 @@
               foreach($sensortype as $row)
               {
                 echo '<tr>';
-                echo '<td>'.$row['id'].'</td>';
                 echo '<td>'.$row['name'].'</td>';
                 echo '<td class="crud-actions">
                   <a href="'.site_url("admin").'/sensortype/update/'.$row['id'].'" class="btn btn-info">view & edit</a>  

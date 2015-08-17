@@ -1,5 +1,5 @@
 <?php
-class Admin_sensors extends CI_Controller {
+class Admin_sensorobjects extends CI_Controller {
  
     /**
     * Responsable for auto load the model
@@ -8,8 +8,8 @@ class Admin_sensors extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('sensorobjects_model');
         $this->load->model('sensors_model');
-        $this->load->model('sensortype_model');
 
         if(!$this->session->userdata('is_logged_in')){
             redirect('admin/login');
@@ -24,14 +24,14 @@ class Admin_sensors extends CI_Controller {
     {
 
         //all the posts sent by the view
-        $sensortype_id = $this->input->post('sensortype_id');        
+        $sensor_id = $this->input->post('sensor_id');        
         $search_string = $this->input->post('search_string');        
         $order = $this->input->post('order'); 
         $order_type = $this->input->post('order_type'); 
 
         //pagination settings
         $config['per_page'] = 5;
-        $config['base_url'] = base_url().'admin/sensors';
+        $config['base_url'] = base_url().'admin/sensorobjects';
         $config['use_page_numbers'] = TRUE;
         $config['num_links'] = 20;
         $config['full_tag_open'] = '<ul>';
@@ -73,7 +73,7 @@ class Admin_sensors extends CI_Controller {
         //if any filter post was sent but we are in some page, we must load the session data
 
         //filtered && || paginated
-        if($sensortype_id !== false && $search_string !== false && $order !== false || $this->uri->segment(3) == true){ 
+        if($sensor_id !== false && $search_string !== false && $order !== false || $this->uri->segment(3) == true){ 
            
             /*
             The comments here are the same for line 79 until 99
@@ -83,12 +83,12 @@ class Admin_sensors extends CI_Controller {
             we save order into the the var to load the view with the param already selected       
             */
 
-            if($sensortype_id !== 0){
-                $filter_session_data['sensortype_selected'] = $sensortype_id;
+            if($sensor_id !== 0){
+                $filter_session_data['sensor_selected'] = $sensor_id;
             }else{
-                $sensortype_id = $this->session->userdata('sensortype_selected');
+                $sensor_id = $this->session->userdata('sensor_selected');
             }
-            $data['sensortype_selected'] = $sensortype_id;
+            $data['sensor_selected'] = $sensor_id;
 
             if($search_string){
                 $filter_session_data['search_string_selected'] = $search_string;
@@ -108,31 +108,31 @@ class Admin_sensors extends CI_Controller {
             //save session data into the session
             $this->session->set_userdata($filter_session_data);
 
-            //fetch sensortype data into arrays
-            $data['sensortypes'] = $this->sensortype_model->get_sensortype();
+            //fetch sensor data into arrays
+            $data['sensors'] = $this->sensors_model->get_sensors(null,null,null,null,0,10);
 
-            $data['count_sensors']= $this->sensors_model->count_sensors($sensortype_id, $search_string, $order);
-            $config['total_rows'] = $data['count_sensors'];
+            $data['count_sensorobjects']= $this->sensorobjects_model->count_sensorobjects($sensor_id, $search_string, $order);
+            $config['total_rows'] = $data['count_sensorobjects'];
 
             //fetch sql data into arrays
             if($search_string){
                 if($order){
-                    $data['sensors'] = $this->sensors_model->get_sensors($sensortype_id, $search_string, $order, $order_type, $config['per_page'],$limit_end);        
+                    $data['sensorobjects'] = $this->sensorobjects_model->get_sensorobjects($sensor_id, $search_string, $order, $order_type, $config['per_page'],$limit_end);        
                 }else{
-                    $data['sensors'] = $this->sensors_model->get_sensors($sensortype_id, $search_string, '', $order_type, $config['per_page'],$limit_end);           
+                    $data['sensorobjects'] = $this->sensorobjects_model->get_sensorobjects($sensor_id, $search_string, '', $order_type, $config['per_page'],$limit_end);           
                 }
             }else{
                 if($order){
-                    $data['sensors'] = $this->sensors_model->get_sensors($sensortype_id, '', $order, $order_type, $config['per_page'],$limit_end);        
+                    $data['sensorobjects'] = $this->sensorobjects_model->get_sensorobjects($sensor_id, '', $order, $order_type, $config['per_page'],$limit_end);        
                 }else{
-                    $data['sensors'] = $this->sensors_model->get_sensors($sensortype_id, '', '', $order_type, $config['per_page'],$limit_end);        
+                    $data['sensorobjects'] = $this->sensorobjects_model->get_sensorobjects($sensor_id, '', '', $order_type, $config['per_page'],$limit_end);        
                 }
             }
 
         }else{
 
             //clean filter data inside section
-            $filter_session_data['sensortype_selected'] = null;
+            $filter_session_data['sensor_selected'] = null;
             $filter_session_data['search_string_selected'] = null;
             $filter_session_data['order'] = null;
             $filter_session_data['order_type'] = null;
@@ -140,14 +140,14 @@ class Admin_sensors extends CI_Controller {
 
             //pre selected options
             $data['search_string_selected'] = '';
-            $data['sensortype_selected'] = 0;
+            $data['sensor_selected'] = 0;
             $data['order'] = 'id';
 
             //fetch sql data into arrays
-            $data['sensortypes'] = $this->sensortype_model->get_sensortype();
-            $data['count_sensors']= $this->sensors_model->count_sensors();
-            $data['sensors'] = $this->sensors_model->get_sensors('', '', '', $order_type, $config['per_page'],$limit_end);        
-            $config['total_rows'] = $data['count_sensors'];
+            $data['sensors'] = $this->sensors_model->get_sensors(null,null,null,null,0,10);
+            $data['count_sensorobjects']= $this->sensorobjects_model->count_sensorobjects();
+            $data['sensorobjects'] = $this->sensorobjects_model->get_sensorobjects('', '', '', $order_type, $config['per_page'],$limit_end);        
+            $config['total_rows'] = $data['count_sensorobjects'];
 
         }//!isset($sensortype_id) && !isset($search_string) && !isset($order)
 
@@ -155,7 +155,7 @@ class Admin_sensors extends CI_Controller {
         $this->pagination->initialize($config);   
 
         //load the view
-        $data['main_content'] = 'admin/sensors/list';
+        $data['main_content'] = 'admin/sensorobjects/list';
         $this->load->view('includes/template', $data);  
 
     }//index
@@ -168,9 +168,8 @@ class Admin_sensors extends CI_Controller {
 
             //form validation
         	$this->form_validation->set_rules('name', 'name', 'required');
-            $this->form_validation->set_rules('description', 'description', 'required');
-            $this->form_validation->set_rules('sensortype_id', 'sensortype_id', 'required');
-            $this->form_validation->set_rules('ipaddress', 'ipaddress', 'required');
+            $this->form_validation->set_rules('sensor_id', 'sensor_id', 'required');
+            $this->form_validation->set_rules('sensor_pin', 'sensor_pin', 'required');
             $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
 
             //if the form has passed through the validation
@@ -179,11 +178,12 @@ class Admin_sensors extends CI_Controller {
                 $data_to_store = array(
                 	'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'sensortype_id' => $this->input->post('sensortype_id'),
-                	'ipaddress' => $this->input->post('ipaddress')
+                    'sensor_id' => $this->input->post('sensor_id'),
+                	'sensor_pin' => $this->input->post('sensor_pin'),
+                	'misc' => $this->input->post('misc')
                 );
                 //if the insert has returned true then we show the flash message
-                if($this->sensors_model->store_sensor($data_to_store)){
+                if($this->sensorobjects_model->store_sensorobject($data_to_store)){
                     $data['flash_message'] = TRUE; 
                 }else{
                     $data['flash_message'] = FALSE; 
@@ -192,10 +192,10 @@ class Admin_sensors extends CI_Controller {
             }
 
         }
-        //fetch sensortypes data to populate the select field
-        $data['sensortypes'] = $this->sensortype_model->get_sensortype();
+        //fetch sensors data to populate the select field
+        $data['sensors'] = $this->sensors_model->get_sensors(null,null,null,null,0,10);
         //load the view
-        $data['main_content'] = 'admin/sensors/add';
+        $data['main_content'] = 'admin/sensorobjects/add';
         $this->load->view('includes/template', $data);  
     }       
 
@@ -214,27 +214,27 @@ class Admin_sensors extends CI_Controller {
         {
             //form validation
         	$this->form_validation->set_rules('name', 'name', 'required');
-            $this->form_validation->set_rules('description', 'description', 'required');
-            $this->form_validation->set_rules('sensortype_id', 'sensortype_id', 'required');
-            $this->form_validation->set_rules('ipaddress', 'ipaddress', 'required');
+            $this->form_validation->set_rules('sensor_id', 'sensor_id', 'required');
+            $this->form_validation->set_rules('sensor_pin', 'sensor_pin', 'required');
             $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
             //if the form has passed through the validation
             if ($this->form_validation->run())
             {
     
                 $data_to_store = array(
-                	'name' => $this->input->post('name'),
+             	    'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'sensortype_id' => $this->input->post('sensortype_id'),
-                	'ipaddress' => $this->input->post('ipaddress')
+                    'sensor_id' => $this->input->post('sensor_id'),
+                	'sensor_pin' => $this->input->post('sensor_pin'),
+                	'misc' => $this->input->post('misc')
                 );
                 //if the insert has returned true then we show the flash message
-                if($this->sensors_model->update_sensor($id, $data_to_store) == TRUE){
+                if($this->sensorobjects_model->update_sensorobject($id, $data_to_store) == TRUE){
                     $this->session->set_flashdata('flash_message', 'updated');
                 }else{
                     $this->session->set_flashdata('flash_message', 'not_updated');
                 }
-                redirect('admin/sensors/update/'.$id.'');
+                redirect('admin/sensorobjects/update/'.$id.'');
 
             }//validation run
 
@@ -244,11 +244,11 @@ class Admin_sensors extends CI_Controller {
         //the code below wel reload the current data
 
         //sensor data 
-        $data['sensor'] = $this->sensors_model->get_sensor_by_id($id);
+        $data['sensorobjects'] = $this->sensorobjects_model->get_sensorobject_by_id($id);
         //fetch sensortypes data to populate the select field
-        $data['sensortypes'] = $this->sensortype_model->get_sensortype();
+        $data['sensors'] = $this->sensors_model->get_sensors(null,null,null,null,0,10);
         //load the view
-        $data['main_content'] = 'admin/sensors/edit';
+        $data['main_content'] = 'admin/sensorobjects/edit';
         $this->load->view('includes/template', $data);            
 
     }//update
@@ -261,8 +261,8 @@ class Admin_sensors extends CI_Controller {
     {
         //sensor id 
         $id = $this->uri->segment(4);
-        $this->sensors_model->delete_sensor($id);
-        redirect('admin/sensors');
+        $this->sensorobjects_model->delete_sensorobject($id);
+        redirect('admin/sensorobjects');
     }//edit
 
 }

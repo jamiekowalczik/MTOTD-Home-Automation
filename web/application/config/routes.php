@@ -55,6 +55,13 @@ $route['admin/sensors/update/(:any)'] = 'admin_sensors/update/$1';
 $route['admin/sensors/delete/(:any)'] = 'admin_sensors/delete/$1';
 $route['admin/sensors/(:any)'] = 'admin_sensors/index/$1'; //$1 = page number
 
+$route['admin/sensorobjects'] = 'admin_sensorobjects/index';
+$route['admin/sensorobjects/add'] = 'admin_sensorobjects/add';
+$route['admin/sensorobjects/update'] = 'admin_sensorobjects/update';
+$route['admin/sensorobjects/update/(:any)'] = 'admin_sensorobjects/update/$1';
+$route['admin/sensorobjects/delete/(:any)'] = 'admin_sensorobjects/delete/$1';
+$route['admin/sensorobjects/(:any)'] = 'admin_sensorobjects/index/$1'; //$1 = page number
+
 $route['admin/sensortype'] = 'admin_sensortype/index';
 $route['admin/sensortype/add'] = 'admin_sensortype/add';
 $route['admin/sensortype/update'] = 'admin_sensortype/update';

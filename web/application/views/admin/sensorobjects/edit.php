@@ -3,13 +3,13 @@
       <ul class="breadcrumb">
         <li>
           <a href="<?php echo site_url("admin"); ?>">
-            List Sensors
+            List Sensor Objects
           </a> 
           <span class="divider">/</span>
         </li>
         <li>
           <a href="<?php echo site_url("admin").'/'.$this->uri->segment(2); ?>">
-           Add New Sensor
+            Update Sensor Object
           </a> 
           <span class="divider">/</span>
         </li>
@@ -17,18 +17,19 @@
       
       <div class="page-header">
         <h2>
-          Add New Sensor
+          Update Sensor Object
         </h2>
       </div>
+
  
       <?php
       //flash messages
-      if(isset($flash_message)){
-        if($flash_message == TRUE)
+      if($this->session->flashdata('flash_message')){
+        if($this->session->flashdata('flash_message') == 'updated')
         {
           echo '<div class="alert alert-success">';
             echo '<a class="close" data-dismiss="alert">×</a>';
-            echo '<strong>Well done!</strong> new sensor created with success.';
+            echo '<strong>Well done!</strong> sensor updated with success.';
           echo '</div>';       
         }else{
           echo '<div class="alert alert-error">';
@@ -43,45 +44,52 @@
       //form data
       $attributes = array('class' => 'form-horizontal', 'id' => '');
       $options_sensor = array('' => "Select");
-      foreach ($sensortypes as $row)
+      foreach ($sensors as $row)
       {
-        $options_sensortype[$row['id']] = $row['name'];
+        $options_sensor[$row['id']] = $row['name'];
       }
 
       //form validation
       echo validation_errors();
-      
-      echo form_open('admin/sensors/add', $attributes);
+
+      echo form_open('admin/sensorobjects/update/'.$this->uri->segment(4).'', $attributes);
       ?>
         <fieldset>
-          <div class="control-group">
+    	<div class="control-group">
             <label for="inputError" class="control-label">Name</label>
             <div class="controls">
-              <input type="text" id="" name="name" value="<?php echo set_value('name'); ?>" >
+              <input type="text" id="" name="name" value="<?php echo $sensorobjects[0]['name']; ?>" >
               <!--<span class="help-inline">Woohoo!</span>-->
             </div>
           </div>
           <div class="control-group">
             <label for="inputError" class="control-label">Description</label>
             <div class="controls">
-              <input type="text" id="" name="description" value="<?php echo set_value('description'); ?>" >
+              <input type="text" id="" name="description" value="<?php echo $sensorobjects[0]['description']; ?>" >
               <!--<span class="help-inline">Woohoo!</span>-->
             </div>
           </div>
           <div class="control-group">
-            <label for="inputError" class="control-label">IP Address</label>
+            <label for="inputError" class="control-label">Sensor Pin</label>
             <div class="controls">
-              <input type="text" id="" name="ipaddress" value="<?php echo set_value('ipaddress'); ?>" >
+              <input type="text" id="" name="sensor_pin" value="<?php echo $sensorobjects[0]['sensor_pin']; ?>" >
+              <!--<span class="help-inline">Woohoo!</span>-->
+            </div>
+          </div>
+           <div class="control-group">
+            <label for="inputError" class="control-label">Misc</label>
+            <div class="controls">
+              <input type="text" id="" name="misc" value="<?php echo $sensorobjects[0]['misc']; ?>" >
               <!--<span class="help-inline">Woohoo!</span>-->
             </div>
           </div>
           <?php
           echo '<div class="control-group">';
-            echo '<label for="sensortype_id" class="control-label">Sensor Type</label>';
+            echo '<label for="sensor_id" class="control-label">Sensor</label>';
             echo '<div class="controls">';
               //echo form_dropdown('manufacture_id', $options_manufacture, '', 'class="span2"');
               
-              echo form_dropdown('sensortype_id', $options_sensortype, set_value('sensortype_id'), 'class="span2"');
+              echo form_dropdown('sensor_id', $options_sensor, $sensorobjects[0]['sensor_id'], 'class="span2"');
 
             echo '</div>';
           echo '</div">';
@@ -93,6 +101,6 @@
         </fieldset>
 
       <?php echo form_close(); ?>
-
+      
     </div>
      
