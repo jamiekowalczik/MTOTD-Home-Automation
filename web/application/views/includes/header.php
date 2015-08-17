@@ -14,9 +14,6 @@
 	        <li class="dropdown">
 	           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sensors <b class="caret"></b></a>
 	           <ul class="dropdown-menu">
-	              <li <?php if($this->uri->segment(2) == 'zones'){echo 'class="active"';}?>>
-	                 <a href="<?php echo base_url(); ?>admin/zones">Zones</a>
-	              </li>
 	              <li <?php if($this->uri->segment(2) == 'sensortype'){echo 'class="active"';}?>>
 	                 <a href="<?php echo base_url(); ?>admin/sensortype">Sensor Types</a>
 	              </li>
