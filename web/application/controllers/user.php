@@ -10,7 +10,7 @@ class User extends CI_Controller {
 	function index()
 	{
 		if($this->session->userdata('is_logged_in')){
-			redirect('admin/sensors');
+			redirect('mtotd/index');
         }else{
         	$this->load->view('admin/login');	
         }
