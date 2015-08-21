@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.6.24, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: ci_sample
+-- Host: localhost    Database: mtotd
 -- ------------------------------------------------------
 -- Server version	5.6.24-2+deb.sury.org~trusty+2
 
@@ -69,7 +69,7 @@ CREATE TABLE `ci_sessions` (
 
 LOCK TABLES `ci_sessions` WRITE;
 /*!40000 ALTER TABLE `ci_sessions` DISABLE KEYS */;
-INSERT INTO `ci_sessions` VALUES ('ce45c9f4f1a9e28fde322e5787ec070d','192.168.56.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.3',1439846455,'a:8:{s:9:\"user_data\";s:0:\"\";s:9:\"user_name\";s:5:\"admin\";s:12:\"is_logged_in\";b:1;s:19:\"sensortype_selected\";N;s:22:\"search_string_selected\";N;s:5:\"order\";N;s:10:\"order_type\";N;s:15:\"sensor_selected\";N;}');
+INSERT INTO `ci_sessions` VALUES ('56fb6a1b434b9e2d79601bd197cfdbc1','192.168.56.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:40.0) Gecko/20100101 Firefox/40.0',1440127913,'a:7:{s:9:\"user_data\";s:0:\"\";s:9:\"user_name\";s:5:\"admin\";s:12:\"is_logged_in\";b:1;s:19:\"sensortype_selected\";N;s:22:\"search_string_selected\";N;s:5:\"order\";N;s:10:\"order_type\";N;}'),('70153ae70b1d037ac9aa989bc278fa75','192.168.56.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.3',1440127223,'a:3:{s:9:\"user_data\";s:0:\"\";s:9:\"user_name\";s:5:\"admin\";s:12:\"is_logged_in\";b:1;}'),('b187277cdfbef3cd76d3e77c926a544c','192.168.56.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.3',1440118349,'a:6:{s:9:\"user_name\";s:5:\"admin\";s:12:\"is_logged_in\";b:1;s:19:\"sensortype_selected\";N;s:22:\"search_string_selected\";N;s:5:\"order\";N;s:10:\"order_type\";N;}');
 /*!40000 ALTER TABLE `ci_sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,18 +109,18 @@ DROP TABLE IF EXISTS `scheduledevents`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `scheduledevents` (
-  `sevent_id` int(255) NOT NULL AUTO_INCREMENT,
-  `sevent_name` varchar(1024) NOT NULL,
-  `sevent_description` varchar(2048) NOT NULL,
-  `sevent_dow` varchar(1024) NOT NULL,
-  `sevent_month` varchar(1024) NOT NULL,
-  `sevent_dom` varchar(1024) NOT NULL,
-  `sevent_hour` varchar(1024) NOT NULL,
-  `sevent_min` varchar(1024) NOT NULL,
+  `id` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(1024) DEFAULT NULL,
+  `description` varchar(2048) DEFAULT NULL,
+  `dow` varchar(1024) DEFAULT NULL,
+  `month` varchar(1024) DEFAULT NULL,
+  `dom` varchar(1024) DEFAULT NULL,
+  `hour` varchar(1024) DEFAULT NULL,
+  `min` varchar(1024) DEFAULT NULL,
   `sensorobject_id` int(255) NOT NULL,
   `sensorobject_value` varchar(1024) NOT NULL,
-  PRIMARY KEY (`sevent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +129,7 @@ CREATE TABLE `scheduledevents` (
 
 LOCK TABLES `scheduledevents` WRITE;
 /*!40000 ALTER TABLE `scheduledevents` DISABLE KEYS */;
-INSERT INTO `scheduledevents` VALUES (2,'Turn on Living Room Lights','This event will turn on the living room lights at 6pm daily','*','*','*','0-16','*',3,'1'),(3,'Turn off Living Room Lights','This event will turn off the living room lights at 11pm daily','*','*','*','0-16','*',1,'0');
+INSERT INTO `scheduledevents` VALUES (2,'Turn on Living Room Lights','This event will turn on the living room lights at 6pm daily','*','*','*','0-23','*',3,'1'),(3,'Turn off Living Room Lights','This event will turn off the living room lights at 11pm daily','*','*','*','0-23','*',1,'1');
 /*!40000 ALTER TABLE `scheduledevents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,7 +175,7 @@ CREATE TABLE `sensors` (
   `sensortype_id` int(11) DEFAULT NULL,
   `ipaddress` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +184,7 @@ CREATE TABLE `sensors` (
 
 LOCK TABLES `sensors` WRITE;
 /*!40000 ALTER TABLE `sensors` DISABLE KEYS */;
-INSERT INTO `sensors` VALUES (1,'Living Room RasPi','Raspberry Pi in living room controlling lights.',1,'192.168.2.135'),(2,'Kitchen Nano','Arduino Nano Controlling coffee pot',3,'');
+INSERT INTO `sensors` VALUES (1,'Living Room RasPi','Raspberry Pi in living room controlling lights.',1,'192.168.2.135'),(2,'Kitchen Nano','Arduino Nano Controlling coffee pot',8,''),(6,'Bedroom Raspi','Raspberry Pi in bedroom controlling lights and heater',1,'192.168.2.136');
 /*!40000 ALTER TABLE `sensors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,10 +196,10 @@ DROP TABLE IF EXISTS `sensortype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sensortype` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +208,7 @@ CREATE TABLE `sensortype` (
 
 LOCK TABLES `sensortype` WRITE;
 /*!40000 ALTER TABLE `sensortype` DISABLE KEYS */;
-INSERT INTO `sensortype` VALUES (1,'Raspberry Pi'),(2,'IoT Power Relay'),(3,'Arduino Nano');
+INSERT INTO `sensortype` VALUES (1,'Raspberry Pi'),(2,'IoT Power Relay'),(8,'Arduino Nano');
 /*!40000 ALTER TABLE `sensortype` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -221,4 +221,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-17 21:26:00
+-- Dump completed on 2015-08-21  3:37:15

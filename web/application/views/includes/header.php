@@ -35,24 +35,10 @@
 	          <a href="<?php echo base_url(); ?>mtotd/index">Admin</a>
 	        </li>
 	        <li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
-	          <ul class="dropdown-menu">
-	             <li <?php if($this->uri->segment(2) == 'scheduledtasks'){echo 'class="active"';}?>>
-	                <a href="<?php echo base_url(); ?>admin/scheduledtasks">Scheduled Tasks</a>
-	             </li>
-	             <li <?php if($this->uri->segment(2) == 'triggeredtasks'){echo 'class="active"';}?>>
-	                <a href="<?php echo base_url(); ?>admin/triggeredtasks">Triggered Tasks</a>
-	             </li>
-	           </ul>
-	        </li>
-	        <li <?php if($this->uri->segment(2) == 'events'){echo 'class="active"';}?>>
-	          <a href="<?php echo base_url(); ?>admin/events">Events</a>
-	        </li>
-	        <li class="dropdown">
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">System <b class="caret"></b></a>
 	          <ul class="dropdown-menu">
 	            <li>
-	              <a href="<?php echo base_url(); ?>admin/logout">Logout</a>
+	              <a href="<?php echo base_url(); ?>user/logout">Logout</a>
 	            </li>
 	          </ul>
 	        </li>

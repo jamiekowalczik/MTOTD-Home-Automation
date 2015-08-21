@@ -45,7 +45,7 @@ class User extends CI_Controller {
 				'is_logged_in' => true
 			);
 			$this->session->set_userdata($data);
-			redirect('admin/sensors');
+			redirect('mtotd/index');
 		}
 		else // incorrect username or password
 		{
@@ -109,7 +109,7 @@ class User extends CI_Controller {
 	function logout()
 	{
 		$this->session->sess_destroy();
-		redirect('admin');
+		redirect('mtotd');
 	}
 
 }
