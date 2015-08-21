@@ -10,7 +10,7 @@ import urllib.request
 import urllib.parse
 
 dbhost = '127.0.0.1'
-dbname = 'mtotd'
+dbname = 'mtotod'
 dbuser = 'root'
 dbpass = 'mtotdmtotd'
 eventstable = 'scheduledevents'
