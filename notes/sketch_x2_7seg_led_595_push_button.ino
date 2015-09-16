@@ -269,10 +269,10 @@ void loopRadio() {
         delay(10);
       }
    }
-   lookForConfigChangesLed1();
-   lookForConfigChangesLed2();  
 }
 
 void loop() {
   loopRadio();
+  lookForConfigChangesLed1();
+  lookForConfigChangesLed2();  
 }
