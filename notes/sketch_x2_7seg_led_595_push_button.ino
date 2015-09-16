@@ -126,9 +126,11 @@ void readConfig() {
   }
 }
 
-int getState(unsigned short pin){
-  boolean state = digitalRead(pin);
-  return state == true ? 0 : 1;
+int getState(unsigned short piid, unsigned short deviceid){
+  if( piid == curValueLed1 && deviceid == curValueLed2 ){
+     boolean state = digitalRead(relay);
+     return state == true ? 1: 0;
+  }
 }
 
 void doAction(unsigned short piid, unsigned short deviceid, unsigned short action){
@@ -167,7 +169,7 @@ void performAction(unsigned short rawMessage){
       callback = action;
       doAction(piid, deviceid, action);
    }else if(action == 2){
-      callback = getState(deviceid);
+      callback = getState(piid, deviceid);
    }
    sendCallback(callback);
 }
