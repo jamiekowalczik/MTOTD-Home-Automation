@@ -61,6 +61,11 @@ int button2Val = 1;
 int lastButton2Val = 1;
 int curValueLed2 = 0;
 
+int button3InPin = A2; 
+int button3Val = 1;
+int lastButton3Val = 1;
+int curValueButton3 = 0;
+
 //Vars for reading & writing settings
 byte xeeLed1;
 byte xeeLed2;
@@ -174,6 +179,18 @@ void performAction(unsigned short rawMessage){
    sendCallback(callback);
 }
 
+void performActionManually(){
+  unsigned short action;
+  action = digitalRead(relay);
+  if( action == 0 ){
+     digitalWrite(relay, HIGH);
+     saveConfigRelay1(1);
+  }else if( action == 1){
+     digitalWrite(relay, LOW);
+     saveConfigRelay1(0);
+  }
+}
+
 void setup() {
   pinMode(latchPinLed1, OUTPUT);
   pinMode(dataPinLed1, OUTPUT);
@@ -251,6 +268,17 @@ void lookForConfigChangesLed2() {
   writeNumLed2(curValueLed2);
 }
 
+void lookForManualOnOff() {
+  button3Val = digitalRead(button3InPin);
+  if (button3Val != lastButton3Val) {
+    if (button3Val == HIGH) {
+      performActionManually();
+    } 
+    delay(50);
+  }
+  lastButton3Val = button3Val;
+}
+
 void loopRadio() {
    // if there is data ready
    if ( radio.available() ){
@@ -268,11 +296,12 @@ void loopRadio() {
         performAction(rawMessage);
         delay(10);
       }
-   }
+   } 
 }
 
 void loop() {
   loopRadio();
   lookForConfigChangesLed1();
-  lookForConfigChangesLed2();  
+  lookForConfigChangesLed2(); 
+  lookForManualOnOff();
 }
